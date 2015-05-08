@@ -37,12 +37,16 @@ static char emptyImageKey;
 {
     if (!self.overlay) {
         [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, -20, [UIScreen mainScreen].bounds.size.width, CGRectGetHeight(self.bounds) + 20)];
+        [self setShadowImage:[UIImage new]];
+
+        CGFloat statusBarFrameHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, -statusBarFrameHeight, [UIScreen mainScreen].bounds.size.width, CGRectGetHeight(self.bounds) + statusBarFrameHeight)];
         self.overlay.userInteractionEnabled = NO;
         self.overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [self insertSubview:self.overlay atIndex:0];
     }
     self.overlay.backgroundColor = backgroundColor;
+    
 }
 
 - (void)lt_setTranslationY:(CGFloat)translationY
@@ -61,6 +65,7 @@ static char emptyImageKey;
             self.emptyImage = [UIImage new];
         }
         self.backIndicatorImage = self.emptyImage;
+        self.backIndicatorTransitionMaskImage = self.emptyImage;
     }
 }
 
